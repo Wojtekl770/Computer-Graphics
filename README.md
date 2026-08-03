@@ -35,6 +35,10 @@ A programme that renders a third-degree Bézier surface based on control points 
 ## 4. 3D Scene
 A project utilising graphics APIs (e.g. OpenGL, DirectX, WebGL) to render an interactive 3D scene.
 
+<p align="left">
+  <img src="screenshots/scene.gif" alt="3D Scene" width="700">
+</p>
+
 ### Key features:
 - Programmable rendering pipeline (shaders)
 - Objects in the scene:
@@ -55,6 +59,3 @@ A project utilising graphics APIs (e.g. OpenGL, DirectX, WebGL) to render an int
   - Switching between day and night
   - Light fading with distance
     
-| 3D Scene |
-|---|
-|![3D Scene](screenshots/scene.gif)|
