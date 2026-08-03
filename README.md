@@ -54,5 +54,7 @@ A project utilising graphics APIs (e.g. OpenGL, DirectX, WebGL) to render an int
   - Fog effect
   - Switching between day and night
   - Light fading with distance
- 
-  ![3D Scene](screenshots/scene.gif)
+    
+| 3D Scene |
+|---|
+|![3D Scene](screenshots/scene.gif)|
