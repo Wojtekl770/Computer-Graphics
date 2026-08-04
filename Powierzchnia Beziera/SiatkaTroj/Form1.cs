@@ -21,39 +21,39 @@ namespace SiatkaTroj
         private int resolution = 12;
         private bool fillMode = false;
         private int rozmiarPunktu = 5;
-        private Vector3 lightPosition = new Vector3(0, 2, 0); // Pocz¹tkowa pozycja œwiat³a
+        private Vector3 lightPosition = new Vector3(0, 2, 0); // PoczÄ…tkowa pozycja Å›wiatÅ‚a
 
 
 
-        // Parametry oœwietlenia
-        private float kd = 0.5f; // wspó³czynnik rozproszony
-        private float ks = 0.5f; // wspó³czynnik zwierciadlany
-        private int m = 20; // wspó³czynnik po³ysku (zwierciadlany)
+        // Parametry oÅ›wietlenia
+        private float kd = 0.5f; // wspÃ³Å‚czynnik rozproszony
+        private float ks = 0.5f; // wspÃ³Å‚czynnik zwierciadlany
+        private int m = 20; // wspÃ³Å‚czynnik poÅ‚ysku (zwierciadlany)
         private Vector3 IL = new Vector3(2, 2, 2);
         private Vector3 IO = new Vector3(255, 255, 255); // kolor obiektu (wybierany z menu)
-        private bool useTexture = false; // Flaga: true - tekstura, false - sta³y kolor
-        private Bitmap textureBitmap; // Przechowuje wczytan¹ teksturê
+        private bool useTexture = false; // Flaga: true - tekstura, false - staÅ‚y kolor
+        private Bitmap textureBitmap; // Przechowuje wczytanÄ… teksturÄ™
         private Bitmap NormalMap;
 
-        private float angle = 0; // K¹t, który bêdzie kontrolowaæ pozycjê punktu na okrêgu
-        private float radius = 50; // Promieñ okrêgu, po którym porusza siê punkt œwietlny
-        private System.Windows.Forms.Timer lightMovementTimer; // Timer, który bêdzie odpowiada³ za ruch œwiat³a
+        private float angle = 0; // KÄ…t, ktÃ³ry bÄ™dzie kontrolowaÄ‡ pozycjÄ™ punktu na okrÄ™gu
+        private float radius = 50; // PromieÅ„ okrÄ™gu, po ktÃ³rym porusza siÄ™ punkt Å›wietlny
+        private System.Windows.Forms.Timer lightMovementTimer; // Timer, ktÃ³ry bÄ™dzie odpowiadaÅ‚ za ruch Å›wiatÅ‚a
 
 
         public Form1()
         {
             InitializeComponent();
 
-            // Wczytanie punktów kontrolnych
+            // Wczytanie punktÃ³w kontrolnych
             punktyKontrolne = WczytajPunktyKontrolne("sciezka_do_pliku.txt");
 
-            // Generowanie siatki na podstawie punktów kontrolnych
+            // Generowanie siatki na podstawie punktÃ³w kontrolnych
             siatkaTrojkatow = GenerujSiatkeTrojkatow(punktyKontrolne, resolution);
 
-            // Pod³¹czenie zdarzeñ
+            // PodÅ‚Ä…czenie zdarzeÅ„
             pictureBoxCanvas.Paint += pictureBoxCanvas_Paint;
 
-            // Inicjalizacja i uruchomienie timera do poruszania œwiat³em
+            // Inicjalizacja i uruchomienie timera do poruszania Å›wiatÅ‚em
             lightMovementTimer = new System.Windows.Forms.Timer();
             lightMovementTimer.Interval = 50; // co 50 ms
             lightMovementTimer.Tick += LightMovementTimer_Tick;
@@ -61,16 +61,16 @@ namespace SiatkaTroj
         }
         private void LightMovementTimer_Tick(object sender, EventArgs e)
         {
-            // Zmieniamy pozycjê œwiat³a
+            // Zmieniamy pozycjÄ™ Å›wiatÅ‚a
             UpdateLightPosition();
-            // Odœwie¿enie rysunku, aby pokazaæ now¹ pozycjê œwiat³a
+            // OdÅ›wieÅ¼enie rysunku, aby pokazaÄ‡ nowÄ… pozycjÄ™ Å›wiatÅ‚a
             pictureBoxCanvas.Invalidate();
         }
 
 
         private void pictureBoxCanvas_Paint(object sender, PaintEventArgs e)
         {
-            // Rysowanie siatki trójk¹tów
+            // Rysowanie siatki trÃ³jkÄ…tÃ³w
             RysujSiatke(e.Graphics, siatkaTrojkatow);
             if (GlobalVariables.ShowControlPoints)
             {
@@ -80,39 +80,39 @@ namespace SiatkaTroj
 
         private void UpdateLightPosition()
         {
-            // Parametry ruchu œwiat³a po okrêgu
-            float radius = 2; // Promieñ okrêgu
-            float speed = 0.05f; // Szybkoœæ ruchu (k¹t zmiany w czasie)
+            // Parametry ruchu Å›wiatÅ‚a po okrÄ™gu
+            float radius = 2; // PromieÅ„ okrÄ™gu
+            float speed = 0.05f; // SzybkoÅ›Ä‡ ruchu (kÄ…t zmiany w czasie)
 
-            // Zwiêksz k¹t, aby œwiat³o porusza³o siê wokó³ osi Y
-            angle += speed; // U¿ywamy zmiennej `angle` zamiast statycznej wartoœci
+            // ZwiÄ™ksz kÄ…t, aby Å›wiatÅ‚o poruszaÅ‚o siÄ™ wokÃ³Å‚ osi Y
+            angle += speed; // UÅ¼ywamy zmiennej `angle` zamiast statycznej wartoÅ›ci
             if (angle > 2 * (float)Math.PI) angle -= 2 * (float)Math.PI;
 
-            // Pozycja œwiat³a na okrêgu wokó³ osi Y
-            lightPosition.X = radius * (float)Math.Cos(angle); // X zmienia siê w zale¿noœci od k¹ta
-            lightPosition.Y = 2; // Y pozostaje sta³e (na poziomie p³aszczyzny XZ)
-            lightPosition.Z = radius * (float)Math.Sin(angle) + GlobalVariables.ZChange; // Z zmienia siê w zale¿noœci od k¹ta
+            // Pozycja Å›wiatÅ‚a na okrÄ™gu wokÃ³Å‚ osi Y
+            lightPosition.X = radius * (float)Math.Cos(angle); // X zmienia siÄ™ w zaleÅ¼noÅ›ci od kÄ…ta
+            lightPosition.Y = 2; // Y pozostaje staÅ‚e (na poziomie pÅ‚aszczyzny XZ)
+            lightPosition.Z = radius * (float)Math.Sin(angle) + GlobalVariables.ZChange; // Z zmienia siÄ™ w zaleÅ¼noÅ›ci od kÄ…ta
         }
 
         private void RysujPunktyKontrolne(Graphics g, List<PunktKontrolny> punkty)
         {
-            Brush brush = new SolidBrush(Color.Red); // Kolor punktów kontrolnych
+            Brush brush = new SolidBrush(Color.Red); // Kolor punktÃ³w kontrolnych
 
             foreach (var punktKontrolny in punkty)
             {
-                // Obracanie i rzutowanie punktu kontrolnego na p³aszczyznê 2D
+                // Obracanie i rzutowanie punktu kontrolnego na pÅ‚aszczyznÄ™ 2D
                 var punkt2D = ProjektujNa2D(ObracajWektor(punktKontrolny.Pozycja, beta, alpha));
 
-                // Rysowanie punktu kontrolnego jako ma³ego kó³ka
+                // Rysowanie punktu kontrolnego jako maÅ‚ego kÃ³Å‚ka
                 g.FillEllipse(brush, punkt2D.X - rozmiarPunktu / 2, punkt2D.Y - rozmiarPunktu / 2, rozmiarPunktu, rozmiarPunktu);
             }
         }
 
         private void RysujSwiatlo(Graphics g)
         {
-            Brush brush = new SolidBrush(Color.Yellow); // Kolor Ÿród³a œwiat³a
+            Brush brush = new SolidBrush(Color.Yellow); // Kolor ÅºrÃ³dÅ‚a Å›wiatÅ‚a
             int rozmiarPunktu = 20;
-            // Rysowanie punktu Ÿród³a œwiat³a
+            // Rysowanie punktu ÅºrÃ³dÅ‚a Å›wiatÅ‚a
             var swiatlo = ProjektujNa2D(ObracajWektor(lightPosition, beta, alpha));
             g.FillEllipse(brush, swiatlo.X - rozmiarPunktu / 2, swiatlo.Y - rozmiarPunktu / 2, rozmiarPunktu, rozmiarPunktu);
         }
@@ -121,19 +121,28 @@ namespace SiatkaTroj
         {
             foreach (var trojkat in siatka)
             {
+                // Przygotowanie wierzchoÅ‚kÃ³w trÃ³jkÄ…ta do projekcji 2D
+                PointF[] vertices = trojkat.Wierzcholki.Select(v => 
+                    ProjektujNa2D(ObracajWektor(v.Pozycja, beta, alpha))
+                ).ToArray();
+
                 if (fillMode)
                 {
-                    // Do uzupelnienia
-                    FillPolygonAET()
+                    // WypeÅ‚nianie trÃ³jkÄ…ta za pomocÄ… AET
+                    Color objectColor = Color.FromArgb((int)IO.X, (int)IO.Y, (int)IO.Z);
+                    FillPolygonAET(vertices, trojkat, g, Color.White, objectColor, lightPosition, new Vector3(0, 0, 1), kd, ks, m);
                 }
                 else
                 {
-                    // Rysujemy tylko krawêdzie trójk¹ta
-                    g.DrawPolygon(...)
+                    // Rysujemy tylko krawÄ™dzie trÃ³jkÄ…ta
+                    using (Pen pen = new Pen(Color.Black))
+                    {
+                        g.DrawPolygon(pen, vertices);
+                    }
                 }
             }
 
-            // Rysowanie œwiat³a jako ostatni element, by by³o na wierzchu
+            // Rysowanie Å›wiatÅ‚a jako ostatni element, by byÅ‚o na wierzchu
             RysujSwiatlo(g);
         }
 
@@ -142,11 +151,11 @@ namespace SiatkaTroj
 
         private void FillPolygonAET(PointF[] vertices, Trojkat trojkat, Graphics g, Color lightColor, Color objectColor, Vector3 lightPosition, Vector3 viewDirection, float kd, float ks, float m)
         {
-            // ZnajdŸ ymin i ymax dla wszystkich wierzcho³ków
+            // ZnajdÅº ymin i ymax dla wszystkich wierzchoÅ‚kÃ³w
             int ymin = (int)vertices.Min(v => v.Y);
             int ymax = (int)vertices.Max(v => v.Y);
 
-            // Tablica list krawêdzi (Edge Table)
+            // Tablica list krawÄ™dzi (Edge Table)
             List<Edge>[] ET = new List<Edge>[ymax - ymin + 1];
             for (int i = 0; i < ET.Length; i++)
                 ET[i] = new List<Edge>();
@@ -155,14 +164,14 @@ namespace SiatkaTroj
             for (int i = 0; i < vertices.Length; i++)
             {
                 PointF p0 = vertices[i];
-                PointF p1 = vertices[(i + 1) % vertices.Length]; // kolejny wierzcho³ek (zamkniêcie wielok¹ta)
+                PointF p1 = vertices[(i + 1) % vertices.Length]; // kolejny wierzchoÅ‚ek (zamkniÄ™cie wielokÄ…ta)
 
-                if (p0.Y == p1.Y) continue; // pomijanie poziomych krawêdzi
+                if (p0.Y == p1.Y) continue; // pomijanie poziomych krawÄ™dzi
 
-                // Sortujemy wierzcho³ki krawêdzi wg Y
+                // Sortujemy wierzchoÅ‚ki krawÄ™dzi wg Y
                 if (p0.Y > p1.Y) (p0, p1) = (p1, p0);
 
-                // Tworzenie nowej krawêdzi
+                // Tworzenie nowej krawÄ™dzi
                 Edge edge = new Edge
                 {
                     x = p0.X,
@@ -170,47 +179,72 @@ namespace SiatkaTroj
                     dx = (p1.X - p0.X) / (p1.Y - p0.Y) // 1/m
                 };
 
-                // Dodajemy krawêdŸ do odpowiedniej listy ET
+                // Dodajemy krawÄ™dÅº do odpowiedniej listy ET
                 ET[(int)p0.Y - ymin].Add(edge);
             }
 
             // Inicjalizacja Active Edge Table (AET)
             List<Edge> AET = new List<Edge>();
 
+            // Konwersja wierzchoÅ‚kÃ³w do 3D dla interpolacji
+            Vector3[] vertices3D = trojkat.Wierzcholki.Select(v => v.Pozycja).ToArray();
+
             using (Pen pen = new Pen(Color.Black))
             {
-                // Przechodzimy przez ka¿d¹ scan-liniê od ymin do ymax
+                // Przechodzimy przez kaÅ¼dÄ… scan-liniÄ™ od ymin do ymax
                 for (int y = ymin; y <= ymax; y++)
                 {
-                    // Dodajemy nowe krawêdzie przecinaj¹ce aktualn¹ scan-liniê
+                    // Dodajemy nowe krawÄ™dzie przecinajÄ…ce aktualnÄ… scan-liniÄ™
                     AET.AddRange(ET[y - ymin]);
 
-                    // Usuwamy krawêdzie, które koñcz¹ siê na aktualnej scan-linii
+                    // Usuwamy krawÄ™dzie, ktÃ³re koÅ„czÄ… siÄ™ na aktualnej scan-linii
                     AET.RemoveAll(e => e.ymax == y);
 
-                    // Sortujemy AET wg wartoœci x
+                    // Sortujemy AET wg wartoÅ›ci x
                     AET = AET.OrderBy(e => e.x).ToList();
 
-                    // Wype³nianie pikseli miêdzy parami krawêdzi w AET
+                    // WypeÅ‚nianie pikseli miÄ™dzy parami krawÄ™dzi w AET
                     for (int i = 0; i < AET.Count; i += 2)
                     {
+                        if (i + 1 >= AET.Count) break;
+
                         int xStart = (int)Math.Ceiling(AET[i].x);
                         int xEnd = (int)Math.Floor(AET[i + 1].x);
 
                         for (int x = xStart; x <= xEnd; x++)
                         {
-                            // Interpolacja barycentryczna pozycji i normalnej
-                            Vector3 interpolatedPosition = InterpolujPozycje(x, y, trojkat);
-                            Vector3 interpolatedNormal = InterpolujNormalna(interpolatedPosition, trojkat);
+                            // Oblicz barycentryczne wspÃ³Å‚rzÄ™dne w przestrzeni 2D
+                            PointF screenPoint = new PointF(x, y);
+                            Vector3 barycentricCoords = CalculateBarycentricCoordinates2D(screenPoint, vertices);
 
-                            // Obliczanie wektora do œwiat³a
+                            // Interpoluj pozycjÄ™ 3D
+                            Vector3 interpolatedPosition = 
+                                barycentricCoords.X * vertices3D[0] +
+                                barycentricCoords.Y * vertices3D[1] +
+                                barycentricCoords.Z * vertices3D[2];
+
+                            // Interpoluj normalnÄ…
+                            Vector3 interpolatedNormal =
+                                barycentricCoords.X * trojkat.Wierzcholki[0].Normalna +
+                                barycentricCoords.Y * trojkat.Wierzcholki[1].Normalna +
+                                barycentricCoords.Z * trojkat.Wierzcholki[2].Normalna;
+
+                            if (interpolatedNormal.Length() > 0)
+                                interpolatedNormal = Vector3.Normalize(interpolatedNormal);
+
+                            // Obliczanie wektora do Å›wiatÅ‚a
                             Vector3 lightDirection = lightPosition - interpolatedPosition;
 
-                            // Obliczanie koloru za pomoc¹ modelu Phonga
+                            // Obliczanie kierunku patrzenia (ze powierzchni w stronÄ™ kamery)
+                            Vector3 viewDir = -interpolatedPosition; // Uproszczona kamera w (0,0,0)
+                            if (viewDir.Length() > 0)
+                                viewDir = Vector3.Normalize(viewDir);
+
+                            // Obliczanie koloru za pomocÄ… modelu Phonga
                             Color pixelColor = CalculateLighting(
                                 interpolatedNormal,
                                 lightDirection,
-                                viewDirection,
+                                viewDir,
                                 lightColor,
                                 objectColor,
                                 kd,
@@ -219,20 +253,40 @@ namespace SiatkaTroj
                             );
 
                             // Rysowanie piksela
-                            g.FillRectangle(new SolidBrush(pixelColor), x, y, 1, 1);
+                            using (SolidBrush brush = new SolidBrush(pixelColor))
+                            {
+                                g.FillRectangle(brush, x, y, 1, 1);
+                            }
                         }
                     }
 
-                    // Aktualizacja wspó³rzêdnych x dla nowych punktów przeciêcia
+                    // Aktualizacja wspÃ³Å‚rzÄ™dnych x dla nowych punktÃ³w przeciÄ™cia
                     foreach (var edge in AET)
                         edge.x += edge.dx;
                 }
             }
         }
 
+        private Vector3 CalculateBarycentricCoordinates2D(PointF point, PointF[] triangleVertices)
+        {
+            PointF p0 = triangleVertices[0];
+            PointF p1 = triangleVertices[1];
+            PointF p2 = triangleVertices[2];
+
+            float denom = (p1.Y - p2.Y) * (p0.X - p2.X) + (p2.X - p1.X) * (p0.Y - p2.Y);
+            if (Math.Abs(denom) < 0.0001f)
+                return Vector3.Zero;
+
+            float lambda1 = ((p1.Y - p2.Y) * (point.X - p2.X) + (p2.X - p1.X) * (point.Y - p2.Y)) / denom;
+            float lambda2 = ((p2.Y - p0.Y) * (point.X - p2.X) + (p0.X - p2.X) * (point.Y - p2.Y)) / denom;
+            float lambda3 = 1.0f - lambda1 - lambda2;
+
+            return new Vector3(lambda1, lambda2, lambda3);
+        }
+
         private Vector3 InterpolujPozycje(int x, int y, Trojkat trojkat)
         {
-            // Obliczenie barycentrycznych wspó³rzêdnych
+            // Obliczenie barycentrycznych wspÃ³Å‚rzÄ™dnych
             var barycentricCoords = ObliczWspolrzedneBarycentryczne(new Vector3(x, y, 0), trojkat);
 
             // Interpolacja pozycji w przestrzeni 3D
@@ -247,37 +301,50 @@ namespace SiatkaTroj
 
         public Color CalculateLighting(Vector3 normal, Vector3 lightDirection, Vector3 viewDirection, Color lightColor, Color objectColor, float kd, float ks, int m)
         {
-            normal = Vector3.Normalize(normal);
-            lightDirection = Vector3.Normalize(lightDirection);
-            viewDirection = Vector3.Normalize(viewDirection);
+            // Ensure vectors are not zero before normalizing
+            if (normal.Length() < 0.0001f)
+                normal = Vector3.UnitZ;
+            else
+                normal = Vector3.Normalize(normal);
+
+            if (lightDirection.Length() < 0.0001f)
+                lightDirection = Vector3.UnitZ;
+            else
+                lightDirection = Vector3.Normalize(lightDirection);
+
+            if (viewDirection.Length() < 0.0001f)
+                viewDirection = Vector3.UnitZ;
+            else
+                viewDirection = Vector3.Normalize(viewDirection);
 
             // Calculate the diffuse and specular components
             float cosNL = Math.Max(0, Vector3.Dot(normal, lightDirection));
             Vector3 R = 2 * cosNL * normal - lightDirection;
-            R = Vector3.Normalize(R);
+            if (R.Length() > 0.0001f)
+                R = Vector3.Normalize(R);
             float cosVR = Math.Max(0, Vector3.Dot(viewDirection, R));
             float specular = (float)Math.Pow(cosVR, m);
 
-            // Interpolating color components (R, G, B)
-            float r = (kd * lightColor.R * objectColor.R * cosNL + ks * lightColor.R * objectColor.R * specular) / 255;
-            float g = (kd * lightColor.G * objectColor.G * cosNL + ks * lightColor.G * objectColor.G * specular) / 255;
-            float b = (kd * lightColor.B * objectColor.B * cosNL + ks * lightColor.B * objectColor.B * specular) / 255;
+            // Calculate color components with proper clamping
+            float r = kd * lightColor.R * objectColor.R * cosNL / 255.0f + ks * lightColor.R * objectColor.R * specular / 255.0f;
+            float g = kd * lightColor.G * objectColor.G * cosNL / 255.0f + ks * lightColor.G * objectColor.G * specular / 255.0f;
+            float b = kd * lightColor.B * objectColor.B * cosNL / 255.0f + ks * lightColor.B * objectColor.B * specular / 255.0f;
 
             // Clamp values to the range [0, 255]
             r = Math.Min(255, Math.Max(0, r * 255));
             g = Math.Min(255, Math.Max(0, g * 255));
             b = Math.Min(255, Math.Max(0, b * 255));
 
-            return Color.FromArgb((int)r, (int)g, (int)b);
+            return Color.FromArgb((int)Math.Round(r), (int)Math.Round(g), (int)Math.Round(b));
         }
 
 
         private Color ObliczKolorSwiatla(Vector3 punkt, Vector3 normalna)
         {
-            // Wektor do œwiat³a
+            // Wektor do Å›wiatÅ‚a
             Vector3 L = ObliczWektorDoSwiatla(punkt);
 
-            // Wektor obserwatora (sta³y dla uproszczenia)
+            // Wektor obserwatora (staÅ‚y dla uproszczenia)
             Vector3 V = new Vector3(0, 0, 1);
 
             // Iloczyn skalarny <N, L>
@@ -296,7 +363,7 @@ namespace SiatkaTroj
             float g = (kd * IL.Y * IO.Y * cosNL + ks * IL.Y * IO.Y * specular) / 255;
             float b = (kd * IL.Z * IO.Z * cosNL + ks * IL.Z * IO.Z * specular) / 255;
 
-            // Ograniczenie wartoœci do zakresu [0, 255]
+            // Ograniczenie wartoÅ›ci do zakresu [0, 255]
             r = Math.Min(255, Math.Max(0, r * 255));
             g = Math.Min(255, Math.Max(0, g * 255));
             b = Math.Min(255, Math.Max(0, b * 255));
@@ -309,7 +376,7 @@ namespace SiatkaTroj
 
         private Vector3 InterpolujNormalna(Vector3 punkt, Trojkat trojkat)
         {
-            // Obliczenie barycentrycznych wspó³rzêdnych
+            // Obliczenie barycentrycznych wspÃ³Å‚rzÄ™dnych
             var barycentricCoords = ObliczWspolrzedneBarycentryczne(punkt, trojkat);
 
             // Interpolacja normalnych
@@ -325,7 +392,7 @@ namespace SiatkaTroj
             }
             else
             {
-                return new Vector3(0, 0, 1); // Domyœlny wektor
+                return new Vector3(0, 0, 1); // DomyÅ›lny wektor
             }
         }
 
@@ -354,7 +421,7 @@ namespace SiatkaTroj
             float w = (d00 * d21 - d01 * d20) / denom;
             float u = 1.0f - v - w;
 
-            return new Vector3(u, v, w); // barycentryczne wspó³rzêdne
+            return new Vector3(u, v, w); // barycentryczne wspÃ³Å‚rzÄ™dne
         }
 
 
@@ -362,22 +429,22 @@ namespace SiatkaTroj
         private Vector3 GetTextureColor(float u, float v)
         {
             if (textureBitmap == null)
-                return new Vector3(1, 1, 1); // Domyœlnie bia³y kolor, jeœli tekstura nie jest dostêpna
+                return new Vector3(1, 1, 1); // DomyÅ›lnie biaÅ‚y kolor, jeÅ›li tekstura nie jest dostÄ™pna
 
-            // Zapêtlenie UV, aby obs³u¿yæ wartoœci poza zakresem [0, 1]
+            // ZapÄ™tlenie UV, aby obsÅ‚uÅ¼yÄ‡ wartoÅ›ci poza zakresem [0, 1]
             u = u % 1;
             if (u < 0) u += 1;
             v = v % 1;
             if (v < 0) v += 1;
 
-            // Przeskalowanie UV na wspó³rzêdne tekstury
+            // Przeskalowanie UV na wspÃ³Å‚rzÄ™dne tekstury
             int x = (int)(u * (textureBitmap.Width - 1));
             int y = (int)(v * (textureBitmap.Height - 1));
 
             // Pobranie koloru pikselu
             Color pixelColor = textureBitmap.GetPixel(x, y);
 
-            // Zwrócenie koloru jako wektora (R, G, B)
+            // ZwrÃ³cenie koloru jako wektora (R, G, B)
             return new Vector3(
                 pixelColor.R,
                 pixelColor.G,
@@ -388,9 +455,9 @@ namespace SiatkaTroj
 
         private (float u, float v) ObliczUV(Vector3 punkt)
         {
-            // Mapowanie wspó³rzêdnych punktu na zakres 0–1
-            float u = (punkt.X + 1) / 2.0f; // Zakres X przesuniêty z [-1,1] na [0,1]
-            float v = (punkt.Z + 1) / 2.0f; // Zakres Z przesuniêty z [-1,1] na [0,1]
+            // Mapowanie wspÃ³Å‚rzÄ™dnych punktu na zakres 0â€“1
+            float u = (punkt.X + 1) / 2.0f; // Zakres X przesuniÄ™ty z [-1,1] na [0,1]
+            float v = (punkt.Z + 1) / 2.0f; // Zakres Z przesuniÄ™ty z [-1,1] na [0,1]
 
             return (u, v);
         }
@@ -407,8 +474,8 @@ namespace SiatkaTroj
             }
             else
             {
-                Debug.WriteLine("Wektor do œwiat³a ma d³ugoœæ 0!");
-                return new Vector3(0, 0, 1); // Domyœlna wartoœæ
+                Debug.WriteLine("Wektor do Å›wiatÅ‚a ma dÅ‚ugoÅ›Ä‡ 0!");
+                return new Vector3(0, 0, 1); // DomyÅ›lna wartoÅ›Ä‡
             }
         }
 
@@ -421,7 +488,7 @@ namespace SiatkaTroj
         // Reszta funkcji do wczytywania, obrotu, projekcji, itp., pozostaje niezmieniona.
         private Vector3 ObracajWektor(Vector3 punkt, float katX, float katY)
         {
-            // Obrót wokó³ osi Y (alfa - obrót poziomy)
+            // ObrÃ³t wokÃ³Å‚ osi Y (alfa - obrÃ³t poziomy)
             float cosY = (float)Math.Cos(katY * Math.PI / 180);
             float sinY = (float)Math.Sin(katY * Math.PI / 180);
             float x = punkt.X * cosY + punkt.Z * sinY;
@@ -429,7 +496,7 @@ namespace SiatkaTroj
             punkt.X = x;
             punkt.Z = z;
 
-            // Obrót wokó³ osi X (beta - obrót pionowy)
+            // ObrÃ³t wokÃ³Å‚ osi X (beta - obrÃ³t pionowy)
             float cosX = (float)Math.Cos(katX * Math.PI / 180);
             float sinX = (float)Math.Sin(katX * Math.PI / 180);
             float y = punkt.Y * cosX - punkt.Z * sinX;
@@ -467,13 +534,13 @@ namespace SiatkaTroj
                 }
             }
 
-            // Sprawdzenie, czy punkty kontrolne s¹ poprawnie zdefiniowane
+            // Sprawdzenie, czy punkty kontrolne sÄ… poprawnie zdefiniowane
             if (punkty.Count < 16)
             {
-                Debug.WriteLine("B³¹d: za ma³o punktów kontrolnych!");
+                Debug.WriteLine("BÅ‚Ä…d: za maÅ‚o punktÃ³w kontrolnych!");
             }
 
-            // Obliczanie tangentów i normalnych
+            // Obliczanie tangentÃ³w i normalnych
             for (int i = 0; i < 4; i++) // Wiersze
             {
                 for (int j = 0; j < 4; j++) // Kolumny
@@ -540,25 +607,39 @@ namespace SiatkaTroj
             {
                 for (int j = 0; j < resolution; j++)
                 {
-                    // Indeksy parametrów u i v
+                    // Indeksy parametrÃ³w u i v
                     float u0 = i * step;
                     float v0 = j * step;
                     float u1 = (i + 1) * step;
                     float v1 = (j + 1) * step;
 
-                    // Obliczenie punktów na powierzchni Béziera
+                    // Obliczenie punktÃ³w na powierzchni BÃ©ziera
                     Vector3 p0 = ObliczPunktBezier(u0, v0, punkty);
                     Vector3 p1 = ObliczPunktBezier(u1, v0, punkty);
                     Vector3 p2 = ObliczPunktBezier(u0, v1, punkty);
                     Vector3 p3 = ObliczPunktBezier(u1, v1, punkty);
 
-                    // Tworzenie dwóch trójk¹tów na kwadrat powierzchni
-                    Trojkat trojkat1 = new Trojkat(new PunktKontrolny[] {
-                new PunktKontrolny(p0), new PunktKontrolny(p1), new PunktKontrolny(p3)
-            });
-                    Trojkat trojkat2 = new Trojkat(new PunktKontrolny[] {
-                new PunktKontrolny(p0), new PunktKontrolny(p3), new PunktKontrolny(p2)
-            });
+                    // Obliczenie normalnych dla punktÃ³w na podstawie pochodnych powierzchni BÃ©ziera
+                    Vector3 n0 = ObliczNormalnaBezier(u0, v0, punkty);
+                    Vector3 n1 = ObliczNormalnaBezier(u1, v0, punkty);
+                    Vector3 n2 = ObliczNormalnaBezier(u0, v1, punkty);
+                    Vector3 n3 = ObliczNormalnaBezier(u1, v1, punkty);
+
+                    // Tworzenie dwÃ³ch trÃ³jkÄ…tÃ³w na kwadrat powierzchni z normalnymi
+                    var p0_ctrl = new PunktKontrolny(p0);
+                    p0_ctrl.Normalna = n0.Length() > 0 ? Vector3.Normalize(n0) : Vector3.UnitZ;
+
+                    var p1_ctrl = new PunktKontrolny(p1);
+                    p1_ctrl.Normalna = n1.Length() > 0 ? Vector3.Normalize(n1) : Vector3.UnitZ;
+
+                    var p2_ctrl = new PunktKontrolny(p2);
+                    p2_ctrl.Normalna = n2.Length() > 0 ? Vector3.Normalize(n2) : Vector3.UnitZ;
+
+                    var p3_ctrl = new PunktKontrolny(p3);
+                    p3_ctrl.Normalna = n3.Length() > 0 ? Vector3.Normalize(n3) : Vector3.UnitZ;
+
+                    Trojkat trojkat1 = new Trojkat(new PunktKontrolny[] { p0_ctrl, p1_ctrl, p3_ctrl });
+                    Trojkat trojkat2 = new Trojkat(new PunktKontrolny[] { p0_ctrl, p3_ctrl, p2_ctrl });
 
                     siatka.Add(trojkat1);
                     siatka.Add(trojkat2);
@@ -568,55 +649,74 @@ namespace SiatkaTroj
             return siatka;
         }
 
+        private Vector3 ObliczNormalnaBezier(float u, float v, List<PunktKontrolny> punkty)
+        {
+            float delta = 0.001f;
+
+            // Obliczenie pochodnych numerycznych
+            Vector3 puPlus = ObliczPunktBezier(u + delta, v, punkty);
+            Vector3 puMinus = ObliczPunktBezier(u - delta, v, punkty);
+            Vector3 du = (puPlus - puMinus) / (2 * delta);
+
+            Vector3 pvPlus = ObliczPunktBezier(u, v + delta, punkty);
+            Vector3 pvMinus = ObliczPunktBezier(u, v - delta, punkty);
+            Vector3 dv = (pvPlus - pvMinus) / (2 * delta);
+
+            // Normalna to iloczyn wektorowy du x dv
+            Vector3 normal = Vector3.Cross(du, dv);
+
+            return normal;
+        }
+
 
 
 
         private void trackBarAlpha_Scroll(object sender, EventArgs e)
         {
             alpha = trackBarAlpha.Value;
-            Odœwie¿Renderowanie();
+            OdÅ›wieÅ¼Renderowanie();
         }
 
         private void trackBarBeta_Scroll(object sender, EventArgs e)
         {
             beta = trackBarBeta.Value;
-            Odœwie¿Renderowanie();
+            OdÅ›wieÅ¼Renderowanie();
         }
 
         private void trackBarResolution_Scroll(object sender, EventArgs e)
         {
             resolution = trackBarResolution.Value;
             siatkaTrojkatow = GenerujSiatkeTrojkatow(punktyKontrolne, resolution);
-            Odœwie¿Renderowanie();
+            OdÅ›wieÅ¼Renderowanie();
         }
 
         private void kdTrackbar_Scroll(object sender, EventArgs e)
         {
             float k = kdTrackbar.Value;
             kd = k / 100;
-            Odœwie¿Renderowanie();
+            OdÅ›wieÅ¼Renderowanie();
         }
 
         private void ksTrackBar_Scroll(object sender, EventArgs e)
         {
             float k = ksTrackBar.Value;
             ks = k / 100;
-            Odœwie¿Renderowanie();
+            OdÅ›wieÅ¼Renderowanie();
         }
 
         private void mTrackBar_Scroll(object sender, EventArgs e)
         {
             m = mTrackBar.Value;
-            Odœwie¿Renderowanie();
+            OdÅ›wieÅ¼Renderowanie();
         }
 
         private void radioButtonMode_CheckedChanged(object sender, EventArgs e)
         {
             fillMode = radioButtonFill.Checked;
-            Odœwie¿Renderowanie();
+            OdÅ›wieÅ¼Renderowanie();
         }
 
-        private void Odœwie¿Renderowanie()
+        private void OdÅ›wieÅ¼Renderowanie()
         {
             pictureBoxCanvas.Invalidate();
         }
@@ -662,7 +762,7 @@ namespace SiatkaTroj
                         selectedColor.B / 100
                     );
 
-                    this.Invalidate(); // Prze³aduj rysunek, aby zastosowaæ nowy kolor
+                    this.Invalidate(); // PrzeÅ‚aduj rysunek, aby zastosowaÄ‡ nowy kolor
                 }
             }
         }
@@ -680,7 +780,7 @@ namespace SiatkaTroj
                         selectedColor.B
                     );
                     useTexture = false;
-                    this.Invalidate(); // Prze³aduj rysunek, aby zastosowaæ nowy kolor
+                    this.Invalidate(); // PrzeÅ‚aduj rysunek, aby zastosowaÄ‡ nowy kolor
                 }
             }
         }
@@ -699,10 +799,10 @@ namespace SiatkaTroj
                 {
                     textureBitmap = new Bitmap(openFileDialog.FileName);
 
-                    // Informacja zwrotna i prze³adowanie rysunku
-                    MessageBox.Show("Tekstura za³adowana pomyœlnie!", "Sukces");
-                    useTexture = true; // Prze³¹czenie na tryb tekstury
-                    this.Invalidate(); // Prze³adowanie panelu graficznego
+                    // Informacja zwrotna i przeÅ‚adowanie rysunku
+                    MessageBox.Show("Tekstura zaÅ‚adowana pomyÅ›lnie!", "Sukces");
+                    useTexture = true; // PrzeÅ‚Ä…czenie na tryb tekstury
+                    this.Invalidate(); // PrzeÅ‚adowanie panelu graficznego
                 }
             }
         }
@@ -719,20 +819,20 @@ namespace SiatkaTroj
             }
             else
             {
-                // Przywróæ domyœlne normalne (np. liczone z powierzchni)
+                // PrzywrÃ³Ä‡ domyÅ›lne normalne (np. liczone z powierzchni)
                 foreach (var punkt in punktyKontrolne)
                 {
                     punkt.Normalna = WyliczNormalnaZPowierzchni(punkt);
                 }
             }
 
-            // Odœwie¿ rysunek, aby zobaczyæ zmiany
+            // OdÅ›wieÅ¼ rysunek, aby zobaczyÄ‡ zmiany
             pictureBoxCanvas.Invalidate();
         }
 
         private Vector3 WyliczNormalnaZPowierzchni(PunktKontrolny punkt)
         {
-            // Przyk³ad: ustaw domyœln¹ normaln¹ jako jednostkowy wektor Z
+            // PrzykÅ‚ad: ustaw domyÅ›lnÄ… normalnÄ… jako jednostkowy wektor Z
             return Vector3.UnitZ;
         }
 
@@ -745,10 +845,10 @@ namespace SiatkaTroj
             // Pobranie wektora normalnego z mapy
             Vector3 normalFromTexture = GetTextureNormal(u, v);
 
-            // Wyznaczenie macierzy przekszta³cenia
+            // Wyznaczenie macierzy przeksztaÅ‚cenia
             Matrix4x4 transformationMatrix = CalculateTransformationMatrix(punkt.TangentU, punkt.TangentV, punkt.Normalna);
 
-            // Przekszta³cenie wektora normalnego
+            // PrzeksztaÅ‚cenie wektora normalnego
             Vector3 transformedNormal = Vector3.TransformNormal(normalFromTexture, transformationMatrix);
 
             // Normalizacja wynikowego wektora
@@ -758,22 +858,22 @@ namespace SiatkaTroj
         private Vector3 GetTextureNormal(float u, float v)
         {
             if (textureBitmap == null)
-                return Vector3.UnitZ; // Domyœlny wektor normalny, jeœli brak mapy normalnych
+                return Vector3.UnitZ; // DomyÅ›lny wektor normalny, jeÅ›li brak mapy normalnych
 
-            // Zapêtlenie UV
+            // ZapÄ™tlenie UV
             u = u % 1;
             if (u < 0) u += 1;
             v = v % 1;
             if (v < 0) v += 1;
 
-            // Przekszta³cenie UV na wspó³rzêdne tekstury
+            // PrzeksztaÅ‚cenie UV na wspÃ³Å‚rzÄ™dne tekstury
             int x = (int)(u * (textureBitmap.Width - 1));
             int y = (int)(v * (textureBitmap.Height - 1));
 
             // Pobranie koloru pikselu
             Color pixelColor = textureBitmap.GetPixel(x, y);
 
-            // Przekszta³cenie koloru na zakres <-1, 1> dla wektora normalnego
+            // PrzeksztaÅ‚cenie koloru na zakres <-1, 1> dla wektora normalnego
             float nx = (pixelColor.R / 255f) * 2 - 1;
             float ny = (pixelColor.G / 255f) * 2 - 1;
             float nz = (pixelColor.B / 255f) * 2 - 1;
@@ -797,8 +897,8 @@ namespace SiatkaTroj
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "Pliki obrazów (*.png;*.jpg;*.bmp)|*.png;*.jpg;*.bmp",
-                Title = "Wybierz mapê normalnych"
+                Filter = "Pliki obrazÃ³w (*.png;*.jpg;*.bmp)|*.png;*.jpg;*.bmp",
+                Title = "Wybierz mapÄ™ normalnych"
             };
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -807,11 +907,11 @@ namespace SiatkaTroj
                 {
                     // Wczytanie bitmapy
                     textureBitmap = new Bitmap(openFileDialog.FileName);
-                    MessageBox.Show("Mapa normalnych zosta³a za³adowana pomyœlnie.");
+                    MessageBox.Show("Mapa normalnych zostaÅ‚a zaÅ‚adowana pomyÅ›lnie.");
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Wyst¹pi³ b³¹d podczas wczytywania mapy: {ex.Message}");
+                    MessageBox.Show($"WystÄ…piÅ‚ bÅ‚Ä…d podczas wczytywania mapy: {ex.Message}");
                 }
             }
         }
