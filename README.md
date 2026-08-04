@@ -3,6 +3,10 @@
 The repository contains four projects related to computer graphics. Each project focuses on different aspects of 2D and 3D graphics, including polygon editing, Bézier surface rendering, image animation, and the creation of 3D scenes using a programmable rendering pipeline.
 
 ## 1. Polygon Editor
+<p align="left">
+  <img src="screenshots/shape.gif" alt="Polygon Editor" width="500">
+</p>
+
 An interactive editor for manipulating polygons and Bézier segments. Key features:
 - Adding, editing and deleting polygons
 - Moving vertices and control points of Bézier segments
@@ -16,6 +20,10 @@ An interactive editor for manipulating polygons and Bézier segments. Key featur
 - Predefined scene with constraints and at least one Bézier segment
 
 ## 2. Bézier surface
+<p align="left">
+  <img src="screenshots/bezier.gif" alt="Bezier surface" width="500">
+</p>
+
 A programme that renders a third-degree Bézier surface based on control points loaded from a file. Features:
 - Rotation of the surface around the Z and X axes (alpha and beta angles adjustable via sliders)
 - Triangulation of the surface and interpolation using triangles
