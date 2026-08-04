@@ -26,6 +26,9 @@ A programme that renders a third-degree Bézier surface based on control points 
 - Support for textures and normal vector maps
 
 ## 3. Image Movement
+<p align="left">
+  <img src="screenshots/image.gif" alt="Image movement" width="500">
+</p>
 - Animation of an image moving along a curve
 - The image rotates tangentially to the curve
 - Ability to pause the movement and switch to rotation around the centre
